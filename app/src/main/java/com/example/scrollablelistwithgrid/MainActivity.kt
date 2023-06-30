@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,12 +18,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,8 +64,9 @@ fun TopicsGridApp(modifier: Modifier = Modifier){
 fun TopicsGrid(topics: List<Topic>, modifier: Modifier = Modifier){
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp),
-        modifier = modifier.padding(8.dp)
+        modifier = modifier.padding(dimensionResource(R.dimen.padding_small)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small)),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
     ){
         items(topics){ topic ->
             TopicCard(topic, modifier)
@@ -93,26 +98,36 @@ fun TopicCard(topic: Topic, modifier: Modifier = Modifier){
 
 @Composable
 fun TopicBody(topic: Topic, modifier: Modifier = Modifier){
-    Column(
-        modifier = modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp)
-    ){
-        Text(text = stringResource(topic.nameResourceId), style = MaterialTheme.typography.bodyMedium)
-        Spacer(modifier = modifier.height(8.dp))
-        Row(
-            modifier = modifier
-        ){
-            Image(
-                painter = painterResource(R.drawable.ic_grain),
-                contentDescription = "grains"
+    Column(){
+        Text(
+            text = stringResource(topic.nameResourceId),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = modifier.padding(
+                start = dimensionResource(R.dimen.padding_medium),
+                top = dimensionResource(R.dimen.padding_medium),
+                end = dimensionResource(R.dimen.padding_medium),
+                bottom = dimensionResource(R.dimen.padding_small),
             )
-            Spacer(modifier = modifier.width(8.dp))
-            Text(text = topic.courseId.toString(), style = MaterialTheme.typography.labelMedium)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Icon(
+                painter = painterResource(R.drawable.ic_grain),
+                contentDescription = "grains",
+                modifier = modifier.padding(start = dimensionResource(R.dimen.padding_medium))
+            )
+            Text(
+                text = topic.courseId.toString(),
+                style = MaterialTheme.typography.labelMedium,
+                modifier = modifier.padding(start = dimensionResource(R.dimen.padding_small))
+            )
         }
     }
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CardPreview() {
     ScrollableListWithGridTheme {
